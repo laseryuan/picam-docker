@@ -1,0 +1,19 @@
+# Production
+
+## Usage
+
+### Run gui in container by ssh forwarding x11 to host
+docker run --rm --name="picam" \
+  --net=host -e DISPLAY -v /home/pi/.Xauthority:/root/.Xauthority:ro \
+  --privileged \
+  -it lasery/picam bash
+
+# Development
+cd ~/projects/picam
+sshfs pi@raspiwifi.btccashout.com:/home/pi/projects/picam $PWD/remote
+fusermount -u picam
+
+## Build docker image
+cd /home/pi/projects/picam/
+docker build -t lasery/picam .
+docker push lasery/picam

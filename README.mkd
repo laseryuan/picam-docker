@@ -11,7 +11,8 @@ docker run --rm --name="picam" \
 # Development
 cd ~/projects/picam
 sshfs pi@raspiwifi.btccashout.com:/home/pi/projects/picam $PWD/remote
-fusermount -u picam
+cd remote
+cd .. && fusermount -u remote
 
 ## Build docker image
 cd /home/pi/projects/picam/

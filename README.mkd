@@ -8,9 +8,13 @@ docker run --rm --name="picam" \
   --privileged \
   -it lasery/picam bash
 
+cd ~/picam
+./picam --alsadev hw:1,0
+
 # Development
+read -p 'server ip/domain: ' SERVER_ENTRYPOINT
 cd ~/projects/picam
-sshfs pi@raspiwifi.btccashout.com:/home/pi/projects/picam $PWD/remote
+sshfs pi@SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote
 cd remote
 cd .. && fusermount -u remote
 

@@ -14,7 +14,7 @@ cd ~/picam
 # Development
 read -p 'server ip/domain: ' SERVER_ENTRYPOINT
 cd ~/projects/picam
-sshfs pi@SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote
+sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote
 cd remote
 cd .. && fusermount -u remote
 

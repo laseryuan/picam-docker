@@ -6,10 +6,19 @@
 docker run --rm --name="picam" \
   --net=host -e DISPLAY -v /home/pi/.Xauthority:/root/.Xauthority:ro \
   --privileged \
-  -it lasery/picam bash
+  -it lasery/picam:pizero bash
 
-cd ~/picam
 ./picam --alsadev hw:1,0
+./picam --noaudio
+
+docker exec -it picam bash
+touch hooks/start_record
+ls -lh ./rec/archive/*
+touch hooks/stop_record
+
+docker logs picam
+
+ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
 # Development
 ## Setup
@@ -25,5 +34,5 @@ cd .. && fusermount -u remote
 
 ## Build docker image
 cd /home/pi/projects/picam/
-docker build -t lasery/picam .
-docker push lasery/picam
+docker build -t lasery/picam:pizero .
+docker push lasery/picam:pizero

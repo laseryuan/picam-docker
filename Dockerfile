@@ -5,10 +5,11 @@ RUN apt-get update && apt-get -y upgrade && \
     libharfbuzz0b libfontconfig1
 RUN apt-get install --no-install-recommends -y wget
 
-COPY make_dirs.sh /home/pi/make_dirs.sh
+RUN apt-get install --no-install-recommends -y \
+      libraspberrypi0 `# Solve libbrcmGLESv2.so dependency issue` \
+      libasound2-dev libssl-dev `# Solve libasound dependency issue`
+
 COPY install.sh /home/pi/install.sh
-
-WORKDIR /home/pi/
-
-RUN cd /home/pi/ && ./make_dirs.sh
 RUN cd /home/pi/ && ./install.sh
+
+WORKDIR /root/picam

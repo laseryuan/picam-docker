@@ -17,6 +17,7 @@ ls -lh ./rec/archive/*
 touch hooks/stop_record
 
 docker logs picam
+docker attach picam
 
 ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
@@ -34,5 +35,8 @@ cd .. && fusermount -u remote
 
 ## Build docker image
 cd /home/pi/projects/picam/
+docker-compose build picam
+
+cd /home/pi/projects/picam/picam/
 docker build -t lasery/picam:pizero .
 docker push lasery/picam:pizero

@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  rtmp:
+    build: ./rtmp/
+    volumes_from:
+      - picam
+    ports:
+      - "80:80"
+
+  picam:
+    build: ./picam/
+    image: lasery/picam:pizero
+    volumes:
+      - /root/picam/rec/
+    privileged: true
+    command: ./picam --noaudio
+

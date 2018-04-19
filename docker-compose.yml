@@ -32,6 +32,8 @@ services:
     ports:
       - "7000:7000"
       - "10022:22"
+      - "1935:1935"
+      - "80:80"
 
   frp-client:
     image: lasery/frp:pizero
@@ -46,3 +48,5 @@ services:
     restart: "no"
     depends_on:
       - frp-client
+      - picam
+      - rtmp

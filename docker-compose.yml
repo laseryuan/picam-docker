@@ -19,7 +19,7 @@ services:
     volumes:
       - /root/picam/rec/
     privileged: true
-    command: ./picam --noaudio
+    command: ./picam --noaudio tcp://rtmp:8181
     # command: ./picam --alsadev hw:1,0
     restart: always
 

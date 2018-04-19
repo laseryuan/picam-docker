@@ -12,3 +12,5 @@ ADD v1.2.1.tar.gz /tmp/
 RUN cd /tmp/nginx-1.14.0 && ./configure --add-module=/tmp/nginx-rtmp-module-1.2.1
 RUN cd /tmp/nginx-1.14.0 && make && make install
 
+RUN apt-get install --no-install-recommends -y \
+  ffmpeg

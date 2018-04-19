@@ -19,6 +19,7 @@ cd ~/projects/picam
 sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote
 
 ## Setup (optional)
+mkdir ~/projects/picam -p
 git clone git@github.com:laseryuan/picam-docker remote
 
 cd remote

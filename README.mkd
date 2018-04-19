@@ -1,8 +1,8 @@
 # Production
 
 ## Usage
-docker-compose up -d frp-server
-docker-compose up -d
+docker-compose pull picam rtmp frp-client
+docker-compose up -d home-care
 
 docker-compose exec picam bash
 
@@ -25,5 +25,5 @@ cd .. && fusermount -u remote
 
 ## Build docker image
 cd /home/pi/projects/picam/
-docker-compose build
-docker-compose push
+docker-compose build picam rtmp frp-client
+docker-compose push picam rtmp frp-client

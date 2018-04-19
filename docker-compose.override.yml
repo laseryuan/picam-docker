@@ -7,3 +7,14 @@ services:
     # volumes_from:
       # - picam
       # - rtmp
+  rtmp:
+    build: ./rtmp/
+
+  picam:
+    build: ./picam/
+
+  frp-server:
+    build: ./frp/
+
+  frp-client:
+    build: ./frp/

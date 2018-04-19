@@ -1,7 +1,8 @@
 # Production
 
 ## Usage
-docker-compose pull picam rtmp frp-client
+docker-compose -f docker-compose.yml up -d {service: home-care, frp-server}# in production
+
 docker-compose up -d home-care
 docker-compose up -d frp-server
 

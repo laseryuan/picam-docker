@@ -33,3 +33,11 @@ services:
     ports:
       - "7000:7000"
 
+  frp-client:
+    build: ./frp/
+    image: lasery/frp:pizero
+    volumes:
+      - ./frp/frpc.ini:/root/frp/frpc.ini
+    entrypoint: /root/frp/frpc
+    command: -c /root/frp/frpc.ini
+    restart: always

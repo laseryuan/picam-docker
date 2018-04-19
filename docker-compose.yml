@@ -10,6 +10,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "1935:1935"
     entrypoint: /usr/local/nginx/sbin/nginx
     command: -g 'daemon off;'
     restart: always

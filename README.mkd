@@ -16,8 +16,9 @@ touch hooks/start_record
 ls -lh ./rec/archive/*
 touch hooks/stop_record
 
-docker logs picam
-docker attach picam
+docker-compose up picam
+
+/usr/local/nginx/sbin/nginx
 
 ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
@@ -35,8 +36,6 @@ cd .. && fusermount -u remote
 
 ## Build docker image
 cd /home/pi/projects/picam/
-docker-compose build picam
+docker-compose build
 
-cd /home/pi/projects/picam/picam/
-docker build -t lasery/picam:pizero .
-docker push lasery/picam:pizero
+docker-compose build picam

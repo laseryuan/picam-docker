@@ -3,10 +3,16 @@ version: '2'
 services:
   rtmp:
     build: ./rtmp/
+    image: lasery/nginx-rtmp:pizero
+    volumes:
+      - ./rtmp/nginx.conf:/usr/local/nginx/conf/nginx.conf
     volumes_from:
       - picam
     ports:
-      - "80:80"
+      - "80"
+      - "443"
+    entrypoint: /usr/local/nginx/sbin/nginx
+    command: -g 'daemon off;'
 
   picam:
     build: ./picam/

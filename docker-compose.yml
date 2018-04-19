@@ -21,4 +21,5 @@ services:
       - /root/picam/rec/
     privileged: true
     command: ./picam --noaudio
+    # command: ./picam --alsadev hw:1,0
 

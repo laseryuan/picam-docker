@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  busybox:
+    image: hypriot/armhf-busybox
+    command: tail -f /dev/null
+    volumes_from:
+      - picam
+      - rtmp

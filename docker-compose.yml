@@ -23,3 +23,11 @@ services:
     command: ./picam --noaudio
     # command: ./picam --alsadev hw:1,0
 
+  frp-server:
+    build: ./frp/
+    image: lasery/frp
+    volumes:
+      - ./frp/frps.ini:/root/frp/frps.ini
+    entrypoint: /root/frp/frps
+    command: -c /root/frp/frps.ini
+

@@ -13,6 +13,7 @@ services:
       - "443:443"
     entrypoint: /usr/local/nginx/sbin/nginx
     command: -g 'daemon off;'
+    restart: always
 
   picam:
     build: ./picam/
@@ -22,6 +23,7 @@ services:
     privileged: true
     command: ./picam --noaudio
     # command: ./picam --alsadev hw:1,0
+    restart: always
 
   frp-server:
     build: ./frp/
@@ -41,3 +43,9 @@ services:
     entrypoint: /root/frp/frpc
     command: -c /root/frp/frpc.ini
     restart: always
+
+  home-care:
+    image: tianon/true
+    restart: "no"
+    depends_on:
+      - frp-client

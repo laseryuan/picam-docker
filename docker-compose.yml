@@ -9,8 +9,8 @@ services:
     volumes_from:
       - picam
     ports:
-      - "80"
-      - "443"
+      - "80:80"
+      - "443:443"
     entrypoint: /usr/local/nginx/sbin/nginx
     command: -g 'daemon off;'
 
@@ -30,4 +30,6 @@ services:
       - ./frp/frps.ini:/root/frp/frps.ini
     entrypoint: /root/frp/frps
     command: -c /root/frp/frps.ini
+    ports:
+      - "7000:7000"
 

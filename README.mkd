@@ -1,7 +1,9 @@
 # Production
 
 ## Usage
+docker-compose up -d frp-server
 docker-compose up -d
+
 docker-compose exec picam bash
 
 touch hooks/start_record

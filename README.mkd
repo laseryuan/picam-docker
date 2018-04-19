@@ -11,14 +11,13 @@ touch hooks/stop_record
 ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
 # Development
-## Setup
-cd ~/projects/
-git clone https://github.com/laseryuan/picam-docker picam
-
-##
 read -p 'server ip/domain: ' SERVER_ENTRYPOINT
 cd ~/projects/picam
 sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote
+
+## Setup (optional)
+git clone git@github.com:laseryuan/picam-docker remote
+
 cd remote
 cd .. && fusermount -u remote
 

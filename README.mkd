@@ -14,6 +14,7 @@ touch hooks/stop_record
 
 ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
+ffplay "rtmp://domain:1935/webcam/mystream"
 # Development
 read -p 'server ip/domain: ' SERVER_ENTRYPOINT
 cd ~/projects/picam

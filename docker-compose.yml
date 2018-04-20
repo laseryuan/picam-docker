@@ -11,8 +11,7 @@ services:
       - "80:80"
       - "443:443"
       - "1935:1935"
-    entrypoint: /usr/local/nginx/sbin/nginx
-    command: -g 'daemon off;'
+    command: /usr/local/nginx/sbin/nginx -g 'daemon off;'
     restart: always
 
   picam:
@@ -20,7 +19,7 @@ services:
     volumes:
       - /root/picam/rec/
     privileged: true
-    command: ./picam --noaudio tcp://rtmp:8181
+    command: ./picam --noaudio --tcpout tcp://rtmp:8181
     # command: ./picam --alsadev hw:1,0
     restart: always
 

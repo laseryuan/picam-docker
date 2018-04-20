@@ -12,5 +12,17 @@ ADD v1.2.1.tar.gz /tmp/
 RUN cd /tmp/nginx-1.14.0 && ./configure --add-module=/tmp/nginx-rtmp-module-1.2.1
 RUN cd /tmp/nginx-1.14.0 && make && make install
 
-RUN apt-get install --no-install-recommends -y \
-  ffmpeg
+RUN apt-get update -qy && apt-get -qy install \
+  build-essential git
+# WORKDIR /root/
+# RUN git clone https://github.com/FFmpeg/FFmpeg.git
+
+# https://github.com/FFmpeg/FFmpeg/archive/n3.3.7.zip
+ADD n3.3.7.tar.gz /root/
+RUN mv /root/FFmpeg-n3.3.7 /root/FFmpeg
+WORKDIR /root/FFmpeg
+RUN apt-get install -qy libomxil-bellagio-dev
+
+RUN ./configure --arch=armel --target-os=linux --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree
+RUN make
+RUN make install

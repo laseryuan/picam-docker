@@ -18,7 +18,7 @@ ffplay "rtmp://domain:1935/webcam/mystream"
 # Development
 read -p 'server ip/domain: ' SERVER_ENTRYPOINT
 cd ~/projects/picam
-sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote
+sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote -o nonempty
 
 ## Setup (optional)
 mkdir ~/projects/picam -p

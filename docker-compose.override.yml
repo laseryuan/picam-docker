@@ -18,3 +18,10 @@ services:
 
   frp-client:
     build: ./frp/
+
+  development-client:
+    image: tianon/true
+    restart: "no"
+    depends_on:
+      - picam
+      - rtmp

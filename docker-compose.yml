@@ -45,7 +45,7 @@ services:
     command: -c /root/frp/frpc.ini
     restart: always
 
-  home-care:
+  production-client:
     image: tianon/true
     restart: "no"
     depends_on:

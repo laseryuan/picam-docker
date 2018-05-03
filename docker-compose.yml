@@ -17,11 +17,13 @@ services:
   picam:
     image: lasery/picam:pizero
     volumes:
-      - /root/picam/rec/
+      - /root/picam/archive/
+      - ./picam/record.sh:/record.sh
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
-    command: ./picam --time --width 640 --height 480 --videobitrate 500000 --fps 20 --noaudio --tcpout tcp://rtmp:8181
+    # command: ./picam --time --width 640 --height 480 --videobitrate 500000 --fps 20 --noaudio --tcpout tcp://rtmp:8181
+    command: /record.sh
     restart: always
 
   frp-server:
@@ -45,7 +47,7 @@ services:
     command: -c /root/frp/frpc.ini
     restart: always
 
-  production-client:
+  prod-cli:
     image: tianon/true
     restart: "no"
     depends_on:

@@ -19,7 +19,7 @@ services:
   frp-client:
     build: ./frp/
 
-  development-client:
+  dev-cli:
     image: tianon/true
     restart: "no"
     depends_on:

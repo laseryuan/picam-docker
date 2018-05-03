@@ -1,28 +1,38 @@
 version: '2'
 
+volumes:
+  records:
+    driver_opts:
+      type: none
+      device: $PWD/data/
+      o: bind
+
 services:
   rtmp:
     image: lasery/nginx-rtmp:pizero
     volumes:
+      - records:/root/picam/archive/
       - ./rtmp/nginx.conf:/usr/local/nginx/conf/nginx.conf
-    volumes_from:
-      - picam
+      - ./rtmp/convert.sh:/convert.sh
     ports:
       - "80:80"
       - "443:443"
       - "1935:1935"
-    command: /usr/local/nginx/sbin/nginx -g 'daemon off;'
+    # command: /usr/local/nginx/sbin/nginx -g 'daemon off;'
+    command: /convert.sh
     restart: always
 
   picam:
     image: lasery/picam:pizero
     volumes:
-      - /root/picam/archive/
+      - records:/root/picam/archive/
       - ./picam/record.sh:/record.sh
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
     # command: ./picam --time --width 640 --height 480 --videobitrate 500000 --fps 20 --noaudio --tcpout tcp://rtmp:8181
+    depends_on:
+      - rtmp
     command: /record.sh
     restart: always
 

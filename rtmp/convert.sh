@@ -22,10 +22,11 @@ check_disk_usage() {
       latestfile=$(ls -1rt *.mp4 | head -n1)
       rm "$latestfile"
     else
+      echo "Pass"
       break
     fi
 
-    echo "Waiting for 10 seconds..."
+    echo "Waiting for 10 seconds and check disk usage again..."
     sleep 10
   done
 }
@@ -45,6 +46,6 @@ do
     rm "$latestfile.ts"
   fi
 
-  echo "Waiting for one minute..."
+  echo "Waiting for one minutes to see if any more ts file need to be convert..."
   sleep 1m
 done

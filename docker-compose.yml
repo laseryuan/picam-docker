@@ -9,6 +9,7 @@ volumes:
 
 services:
   rtmp:
+    container_name: rtmp
     image: lasery/nginx-rtmp:pizero
     volumes:
       - records:/root/picam/archive/
@@ -24,6 +25,7 @@ services:
     restart: always
 
   picam:
+    container_name: picam
     image: lasery/picam:pizero
     volumes:
       - records:/root/picam/archive/
@@ -38,6 +40,7 @@ services:
     restart: always
 
   frp-server:
+    container_name: frp-server
     image: lasery/frp
     volumes:
       - ./frp/frps.ini:/root/frp/frps.ini
@@ -51,6 +54,7 @@ services:
     restart: always
 
   frp-client:
+    container_name: frp-client
     image: lasery/frp:pizero
     volumes:
       - ./frp/frpc.ini:/root/frp/frpc.ini

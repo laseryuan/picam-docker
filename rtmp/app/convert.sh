@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-source lapse.sh
+current_dir=$(dirname "$0")
+source $current_dir/lapse.sh
 
 # Start nginx server
 /usr/local/nginx/sbin/nginx

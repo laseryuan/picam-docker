@@ -15,12 +15,19 @@ services:
       - records:/root/picam/archive/
       - ./rtmp/nginx.conf:/usr/local/nginx/conf/nginx.conf
       - ./rtmp/convert.sh:/convert.sh
+      - /opt/vc:/opt/vc
+      - ./rtmp/lib/FFmpeg:/tmp/FFmpeg
     ports:
       - "80:80"
       - "443:443"
       - "1935:1935"
       - "1936:1936"
     # command: /usr/local/nginx/sbin/nginx -g 'daemon off;'
+    environment:
+      - LD_LIBRARY_PATH=/opt/vc/lib
+    privileged: true
+    devices:
+      - "/dev/vchiq:/dev/vchiq"
     command: /convert.sh
     restart: always
 

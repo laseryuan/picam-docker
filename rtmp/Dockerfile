@@ -23,6 +23,12 @@ RUN mv /root/FFmpeg-n3.3.7 /root/FFmpeg
 WORKDIR /root/FFmpeg
 RUN apt-get install -qy libomxil-bellagio-dev
 
-RUN ./configure --arch=armel --target-os=linux --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree
+# Prepare FFmpeg building environment
+# sudo tar -zcvf /home/pi/projects/picam/rtmp/lib/opt_vc.tar.gz /opt/vc
+ADD ./lib/opt_vc.tar.gz /
+RUN echo "/opt/vc/lib" > /etc/ld.so.conf.d/00-vmcs.conf
+RUN ldconfig
+
+RUN ./configure --arch=armel --target-os=linux --enable-mmal --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree
 RUN make
 RUN make install

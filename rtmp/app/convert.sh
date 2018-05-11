@@ -1,7 +1,6 @@
 #!/bin/bash
 
-current_dir=$(dirname "$0")
-source $current_dir/lapse.sh
+current_file_dir=$(dirname "$0")
 
 # Start nginx server
 /usr/local/nginx/sbin/nginx
@@ -40,7 +39,7 @@ while :
 do
   check_disk_usage
 
-  join_lapse_clips `date -d "-1 day" "+%Y-%m-%d"`
+  $current_file_dir/lapse.sh `date -d "-1 day" "+%Y-%m-%d"`
 
   ts_files_number=$(ls -1t ./*.ts | wc -l)
   echo "$ts_files_number ts files left."

@@ -1,6 +1,6 @@
+#!/bin/bash
 # Usage: join_lapse_clips `date "+%Y-%m-%d"`
 
-join_lapse_clips() {
   DAY_BEGIN=7 # 7 a.m.
 
   ROOT_DIRECTORY=/root/picam/archive/lapse
@@ -10,7 +10,7 @@ join_lapse_clips() {
   date_format="+%Y-%m-%d"
 
   # Get the files of a day
-  all_mp4_files=`ls -1rt *.mp4`
+  all_mp4_files=`ls -1rt *.mp4  2>/dev/null`
 
   target_day=$1
   # target_day="2018-05-10" # for dev
@@ -43,7 +43,7 @@ join_lapse_clips() {
 
   if [ ${#CLIP_LIST[@]} = 0 ]; then
     echo "`date`: No lapse video clips to join for $target_day ..."
-    return
+    exit 0
   fi
 
   for mp4_file in "${CLIP_LIST[@]}"; do
@@ -56,4 +56,3 @@ join_lapse_clips() {
   rm $target_day.txt
   rm "${CLIP_LIST[@]}"
   echo "`date`: Done"
-}

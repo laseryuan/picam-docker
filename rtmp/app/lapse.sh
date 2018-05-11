@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Usage: join_lapse_clips `date "+%Y-%m-%d"`
 
 join_lapse_clips() {

@@ -13,10 +13,8 @@ services:
     image: lasery/nginx-rtmp:pizero
     volumes:
       - records:/root/picam/archive/
+      - ./rtmp/app/:/root/app/
       - ./rtmp/nginx.conf:/usr/local/nginx/conf/nginx.conf
-      - ./rtmp/convert.sh:/convert.sh
-      - ./rtmp/lapse.sh:/lapse.sh
-      - /opt/vc:/opt/vc
     ports:
       - "80:80"
       - "443:443"
@@ -29,7 +27,7 @@ services:
     privileged: true
     devices:
       - "/dev/vchiq:/dev/vchiq"
-    command: /convert.sh
+    command: /root/app/convert.sh
     restart: always
 
   picam:

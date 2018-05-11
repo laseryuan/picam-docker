@@ -3,7 +3,7 @@
 ## Usage
 docker-compose pull picam rtmp frp-client
 
-docker-compose up -d home-care
+docker-compose up -d dev-cli
 docker-compose up -d frp-server
 
 docker-compose exec picam bash

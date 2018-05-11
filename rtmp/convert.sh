@@ -1,4 +1,7 @@
 #!/bin/sh
+
+source lapse.sh
+
 # Start nginx server
 /usr/local/nginx/sbin/nginx
 
@@ -35,6 +38,8 @@ check_disk_usage() {
 while :
 do
   check_disk_usage
+
+  join_lapse_clips `date -d "-1 day" "+%Y-%m-%d"`
 
   ts_files_number=$(ls -1t ./*.ts | wc -l)
   echo "$ts_files_number ts files left."

@@ -1,9 +1,14 @@
 # Production
+## Setup
+mkdir -p ~/projects
+cd ~/projects
+git clone --depth 1 http://github.com/laseryuan/picam-docker.git picam
+cd picam
 
 ## Usage
 docker-compose pull picam rtmp frp-client
 
-docker-compose up -d dev-cli
+docker-compose up -d prod-cli
 docker-compose up -d frp-server
 
 docker-compose exec picam bash
@@ -16,6 +21,8 @@ ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
 ffplay "rtmp://domain:1935/webcam/mystream"
 # Development
+docker-compose up -d dev-cli
+
 read -p 'server ip/domain: ' SERVER_ENTRYPOINT
 cd ~/projects/picam
 sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote -o nonempty

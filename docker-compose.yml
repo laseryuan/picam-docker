@@ -14,7 +14,6 @@ services:
     volumes:
       - records:/root/picam/archive/
       - ./rtmp/app/:/root/app/
-      - ./rtmp/nginx.conf:/usr/local/nginx/conf/nginx.conf
     ports:
       - "80:80"
       - "443:443"

@@ -3,7 +3,7 @@
 current_file_dir=$(dirname "$0")
 
 # Start nginx server
-/usr/local/nginx/sbin/nginx
+/usr/local/nginx/sbin/nginx -c /root/app/nginx.conf
 
 # Check if the folder exist
 cd /root/picam/archive/ || exit 1

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Usage: join_lapse_clips `date "+%Y-%m-%d"`
 
-  DAY_BEGIN=7 # 7 a.m.
+  DAY_BEGIN=7 # i.e. 7 a.m.
 
   ROOT_DIRECTORY=/root/picam/archive/lapse
   # Check if the folder exist
@@ -52,7 +52,18 @@
 
   # join files
   echo "`date`: Join lapse video clips for $target_day ..."
-  ffmpeg -y -v quiet -f concat -i $target_day.txt -c copy output/$target_day.mp4
+  if [ -f output/$target_day.mp4 ]; then # if there are more of the day clip come out after last joint
+    echo "Find more clips of the day. Trying to join with existing lapse video"
+    mv output/$target_day.mp4 output/$target_day.tmp.mp4
+    sed -i "1s/^/file output\/$target_day.tmp.mp4\n/" $target_day.txt
+    ffmpeg -y -v quiet -f concat -i $target_day.txt -c copy output/$target_day.mp4
+    rm output/$target_day.tmp.mp4
+  else
+    ffmpeg -y -v quiet -f concat -i $target_day.txt -c copy output/$target_day.mp4
+  fi
+
+  # clean up temp files
   rm $target_day.txt
   rm "${CLIP_LIST[@]}"
+
   echo "`date`: Done"

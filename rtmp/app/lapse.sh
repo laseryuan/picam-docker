@@ -50,6 +50,8 @@
     echo "file $mp4_file"
   done > $target_day.txt
 
+  cat $target_day.txt
+
   # join files
   echo "`date`: Join lapse video clips for $target_day ..."
   if [ -f output/$target_day.mp4 ]; then # if there are more of the day clip come out after last joint

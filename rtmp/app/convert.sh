@@ -39,7 +39,9 @@ while :
 do
   check_disk_usage
 
-  $current_file_dir/lapse.sh `date -d "-1 day" "+%Y-%m-%d"`
+  if [[ `date "+%H:%M"` > "07:10"  ]]; then
+    $current_file_dir/lapse.sh `date -d "-1 day" "+%Y-%m-%d"`
+  fi
 
   ts_files_number=$(ls -1t ./*.ts | wc -l)
   echo "$ts_files_number ts files left."

@@ -52,7 +52,7 @@ do
     echo "`date`: Processing $latestfile.ts"
     nice -15 ffmpeg -y -v quiet -i "$latestfile.ts" -acodec copy -vcodec copy "$latestfile.mp4"
     echo "`date`: Creating lapse video: ./lapse/$latestfile.mp4 ..."
-    nice -15 ffmpeg -y -v quiet -vcodec h264_mmal -i "$latestfile.mp4" -vf setpts=0.003*PTS -vcodec h264_omx -an -r 20 "./lapse/$latestfile.mp4"
+    nice -15 ffmpeg -y -v quiet -vcodec h264_mmal -i "$latestfile.mp4" -vf setpts=0.004*PTS -vcodec h264_omx -an  "./lapse/$latestfile.mp4"
     rm "$latestfile.ts"
     echo "`date`: Done"
   fi

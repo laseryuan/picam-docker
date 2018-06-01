@@ -20,7 +20,7 @@ check_disk_usage() {
   do
     echo "Check disk capacity..."
     used_percentage=$(df --output=pcent / | tr -dc '0-9')
-    if [ $used_percentage -gt 95 ]; then
+    if [ $used_percentage -gt 93 ]; then
       echo "Disk usage: $used_percentage%, trying to trim files ..."
       latestfile=$(ls -1rt *.mp4 | head -n1)
       rm "$latestfile"

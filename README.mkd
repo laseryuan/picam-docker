@@ -2,8 +2,13 @@
 ## Setup
 mkdir -p ~/projects
 cd ~/projects
-git clone --depth 1 http://github.com/laseryuan/picam-docker.git picam
+git clone --depth 1 git@github.com:laseryuan/picam-docker.git picam
 cd picam
+
+### Cron tab
+sudo crontab -e
+
+35 * * * * /home/pi/projects/picam/utils/network-monitor.sh 2>&1 | /usr/bin/logger -t picam_network_monitor
 
 ## Usage
 docker-compose pull picam rtmp frp-client

@@ -27,8 +27,21 @@ touch hooks/stop_record
 ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
 ffplay "rtmp://$SERVER_ENTRYPOINT:1935/webcam/mystream"
+
 ssh -p 10022 -A pi@$SERVER_ENTRYPOINT
-scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/syslog ./data/syslog`date '+%Y%m%d'`.log
+
+### Logs
+scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/syslog ./data/logs/syslog.`date '+%Y%m%d'`.log
+scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/messages ./data/logs/messages.`date '+%Y%m%d'`.log
+
+grep -a systemd-modules-load
+grep -a reboot
+grep -a dhcpclient
+
+### Huawei
+ssh -p 8022 192.168.21.103
+cd ~/storage/shared/LapseItPro/
+ls -d 2018.*
 
 # Development
 docker-compose up -d dev-cli

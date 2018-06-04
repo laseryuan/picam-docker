@@ -11,6 +11,8 @@ sudo crontab -e
 35 * * * * /home/pi/projects/picam/utils/network-monitor.sh 2>&1 | /usr/bin/logger -t picam_network_monitor
 
 ## Usage
+read -p 'server ip/domain: ' SERVER_ENTRYPOINT
+
 docker-compose pull picam rtmp frp-client
 
 docker-compose up -d prod-cli
@@ -24,11 +26,12 @@ touch hooks/stop_record
 
 ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
 
-ffplay "rtmp://domain:1935/webcam/mystream"
+ffplay "rtmp://$SERVER_ENTRYPOINT:1935/webcam/mystream"
+ssh -p 10022 -A pi@$SERVER_ENTRYPOINT
+scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/syslog ./data/syslog`date '+%Y%m%d'`.log
+
 # Development
 docker-compose up -d dev-cli
-
-read -p 'server ip/domain: ' SERVER_ENTRYPOINT
 cd ~/projects/picam
 sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote -o nonempty
 

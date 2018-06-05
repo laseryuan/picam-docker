@@ -3,6 +3,8 @@
 # Replace ~/picam with your picam directory
 cd /root/picam || exit 1
 
+/root/app/make_dirs.sh
+
 # Wait for rtmp service
 sleep 30
 

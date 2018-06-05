@@ -34,13 +34,13 @@ services:
     image: lasery/picam:pizero
     volumes:
       - records:/root/picam/archive/
-      - ./picam/record.sh:/record.sh
+      - ./picam/app/:/root/app/
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
     depends_on:
       - rtmp
-    command: /record.sh
+    command: /root/app/record.sh
     restart: always
 
   frp-server:

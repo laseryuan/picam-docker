@@ -38,7 +38,6 @@ services:
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
-    # command: ./picam --time --width 640 --height 480 --videobitrate 500000 --fps 20 --noaudio --tcpout tcp://rtmp:8181
     depends_on:
       - rtmp
     command: /record.sh

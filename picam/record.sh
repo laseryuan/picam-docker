@@ -7,7 +7,7 @@ cd /root/picam || exit 1
 sleep 30
 
 # Start picam
-./picam --time --width 630 --height 270 --videobitrate 200000 --fps 15 --noaudio --tcpout tcp://rtmp:8181 &
+./picam --alsadev plughw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --noaudio --tcpout tcp://rtmp:8181 &
 sleep 30
 
 # Stop recording on Ctrl-C

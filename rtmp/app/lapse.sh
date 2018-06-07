@@ -65,7 +65,7 @@
   fi
 
   # clean up temp files
-  rm $target_day.txt
-  rm "${CLIP_LIST[@]}"
+  mv $target_day.txt ./recycle/
+  mv "${CLIP_LIST[@]}" ./recycle/
 
   echo "`date`: Done"

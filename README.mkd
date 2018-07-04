@@ -4,6 +4,7 @@ mkdir -p ~/projects
 cd ~/projects
 git clone --depth 1 git@github.com:laseryuan/picam-docker.git picam
 cd picam
+docker-compose pull
 
 ### Cron tab
 sudo crontab -e

@@ -10,7 +10,7 @@
   date_format="+%Y-%m-%d"
 
   # Get the files of a day
-  all_mp4_files=`ls -1rt *.mp4  2>/dev/null`
+  all_mp4_files=`ls -1 *.mp4  2>/dev/null`
 
   target_day=$1
   # target_day="2018-05-10" # for dev

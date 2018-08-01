@@ -5,7 +5,7 @@
 # Which Interface do you want to check/fix
 wlan='wlan0'
 # Which address do you want to ping to see if the network interface is alive?
-pingip='192.168.21.1'
+pingip='114.114.114.114'
 ##################################################################
 
 echo "Performing Network check for $wlan"

@@ -11,8 +11,13 @@ pingip='114.114.114.114'
 echo "Performing Network check for $wlan"
 /bin/ping -c 1 -I $wlan $pingip > /dev/null 2> /dev/null
 if [ $? -ge 1 ] ; then
-    echo "Network: $wlan connection down! Attempting reconnection."
-    /sbin/ifup --force wlan0
+    echo "Try aggain"
+    /bin/ping -c 1 -I $wlan $pingip
+    if [ $? -ge 1 ] ; then
+        echo "Network: $wlan connection down! Attempting reconnection."
+        ip link set wlan0 down
+        ip link set wlan0 up
+    fi
 else
     echo "Network is Okay"
 fi

@@ -15,9 +15,17 @@ if [ $? -ge 1 ] ; then
     /bin/ping -c 1 -I $wlan $pingip
     if [ $? -ge 1 ] ; then
         echo "Network: $wlan connection down! Attempting to reconnect..."
+        wpa_cli -i wlan0 reconfigure
         ip link set $wlan down
         ip link set $wlan up
         echo "... Done"
+        echo "Do we bring up the network after the effort?..."
+        /bin/ping -c 1 -I $wlan $pingip
+        if [ $? -ge 1 ] ; then
+          echo "Still not get connectted. Reboot the system..."
+          reboot
+        fi
+        echo "Yes!. Finished"
     fi
 else
     echo "Network is Okay"

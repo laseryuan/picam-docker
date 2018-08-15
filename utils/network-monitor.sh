@@ -8,6 +8,8 @@ wlan='wlan0'
 pingip='114.114.114.114'
 ##################################################################
 
+current_path=`dirname "$0"`
+
 echo "Performing Network check for $wlan"
 /bin/ping -c 1 -I $wlan $pingip > /dev/null 2> /dev/null
 if [ $? -ge 1 ] ; then
@@ -26,6 +28,9 @@ if [ $? -ge 1 ] ; then
           reboot
         fi
         echo "Yes!. Finished"
+        echo "Restart frp-client..."
+        $current_path/restart-frp-client.sh
+        echo "Done"
     fi
 else
     echo "Network is Okay"

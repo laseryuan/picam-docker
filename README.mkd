@@ -10,7 +10,7 @@ docker-compose pull
 sudo crontab -e
 
 35 * * * * /home/pi/projects/picam/utils/network-monitor.sh 2>&1 | /usr/bin/logger -t picam_network_monitor
-* 21 * * * /home/pi/projects/picam/utils/restart-frp-client.sh 2>&1 | /usr/bin/logger -t picam_frp_client
+0 21 * * * /home/pi/projects/picam/utils/restart-frp-client.sh 2>&1 | /usr/bin/logger -t picam_frp_client
 
 ## Usage
 read -p 'server ip/domain: ' SERVER_ENTRYPOINT && echo $SERVER_ENTRYPOINT # i.e. raspi0.btccashout.com

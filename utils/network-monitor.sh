@@ -34,4 +34,7 @@ if [ $? -ge 1 ] ; then
     fi
 else
     echo "Network is Okay"
+    echo "Update DNS..."
+    $current_path/update-dns.sh
+    echo "Done"
 fi

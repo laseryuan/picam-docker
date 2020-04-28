@@ -10,7 +10,8 @@ volumes:
 services:
   rtmp:
     container_name: rtmp
-    image: lasery/nginx-rtmp:pizero
+    # image: lasery/nginx-rtmp:pizero
+    image: rtmp
     volumes:
       - records:/root/picam/archive/
       - ./rtmp/app/:/root/app/
@@ -24,8 +25,6 @@ services:
       - LD_LIBRARY_PATH=/opt/vc/lib
       - TZ=Asia/Hong_Kong
     privileged: true
-    devices:
-      - "/dev/vchiq:/dev/vchiq"
     command: /root/app/convert.sh
     restart: always
 

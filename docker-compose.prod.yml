@@ -8,19 +8,15 @@ services:
       # - picam
       # - rtmp
   rtmp:
-    image: watchdog:rtmp
-    volumes:
-      - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
-    build: ./rtmp/
+    image: lasery/watchdog:rtmp
+    devices:
+      - "/dev/vchiq:/dev/vchiq"
 
   picam:
-    build: ./picam/
 
   frp-server:
-    build: ./frp/
 
   frp-client:
-    build: ./frp/
 
   dev-cli:
     image: tianon/true

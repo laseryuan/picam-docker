@@ -2,25 +2,25 @@
 ## Setup
 mkdir -p ~/projects
 cd ~/projects
-git clone --depth 1 git@github.com:laseryuan/picam-docker.git picam
-cd picam
+git clone --depth 1 git@github.com:laseryuan/watchdog-docker.git watchdog
+cd watchdog
 docker-compose pull
 
 ### Cron tab
 sudo crontab -e
 
-35 * * * * /home/pi/projects/picam/utils/network-monitor.sh 2>&1 | /usr/bin/logger -t picam_network_monitor
-0 21 * * * /home/pi/projects/picam/utils/restart-frp-client.sh 2>&1 | /usr/bin/logger -t picam_frp_client
+35 * * * * /home/pi/projects/watchdog/utils/network-monitor.sh 2>&1 | /usr/bin/logger -t watchdog_network_monitor
+0 21 * * * /home/pi/projects/watchdog/utils/restart-frp-client.sh 2>&1 | /usr/bin/logger -t watchdog_frp_client
 
 ## Usage
 read -p 'server ip/domain: ' SERVER_ENTRYPOINT && echo $SERVER_ENTRYPOINT # i.e. raspi0.btccashout.com
 
-docker-compose pull picam rtmp frp-client
+docker-compose pull watchdog rtmp frp-client
 
 docker-compose up -d prod-cli
 docker-compose up -d frp-server
 
-docker-compose exec picam bash
+docker-compose exec watchdog bash
 
 touch hooks/start_record
 ls -lh ./rec/archive/*
@@ -33,7 +33,7 @@ ffplay "rtmp://$SERVER_ENTRYPOINT:1935/webcam/mystream"
 ssh -p 10022 -A pi@$SERVER_ENTRYPOINT
 
 ### Logs
-docker logs picam > ./data/logs/picam.`date '+%Y%m%d'`.log
+docker logs watchdog > ./data/logs/watchdog.`date '+%Y%m%d'`.log
 
 scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/syslog ./data/logs/syslog.`date '+%Y%m%d'`.log
 scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/messages ./data/logs/messages.`date '+%Y%m%d'`.log
@@ -48,17 +48,18 @@ cd ~/storage/shared/LapseItPro/
 ls -d 2018.*
 
 # Development
-cd ~/projects/picam
+cd ~/projects/watchdog
 docker-compose up -d dev-cli
-sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/picam $PWD/remote -o nonempty
+sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/watchdog $PWD/remote -o nonempty
 
 ## Setup (optional)
-mkdir ~/projects/picam -p
-git clone git@github.com:laseryuan/picam-docker remote
+mkdir ~/projects/watchdog -p
+git clone git@github.com:laseryuan/watchdog-docker remote
 
 fusermount -u remote
 
 ## Build docker image
-cd /home/pi/projects/picam/
-docker-compose build picam rtmp frp-client
-docker-compose push picam rtmp frp-client
+cd /home/pi/projects/watchdog/
+docker buildx bake -f docker-bake.hcl
+docker-compose build watchdog rtmp frp-client
+docker-compose push watchdog rtmp frp-client

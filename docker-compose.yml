@@ -30,7 +30,7 @@ services:
     image: lasery/picam
     volumes:
       - records:/home/picam/archive/
-      - ./picam/app/:/home/picam/app/
+      - ./picam:/home/picam/app/
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong

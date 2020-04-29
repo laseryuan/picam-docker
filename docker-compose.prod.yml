@@ -9,8 +9,6 @@ services:
       # - rtmp
   rtmp:
     image: lasery/watchdog:rtmp
-    devices:
-      - "/dev/vchiq:/dev/vchiq"
 
   picam:
 

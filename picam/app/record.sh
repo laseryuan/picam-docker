@@ -1,15 +1,10 @@
 #!/bin/sh
 
-# Replace ~/picam with your picam directory
-cd /root/picam || exit 1
-
-/root/app/make_dirs.sh
-
 # Wait for rtmp service
 sleep 30
 
-# Start picam
-./picam --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181 &
+# Start picam and start streaming
+picam --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181 &
 sleep 30
 
 # Stop recording on Ctrl-C

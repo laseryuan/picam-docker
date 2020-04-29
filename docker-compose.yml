@@ -10,8 +10,7 @@ volumes:
 services:
   rtmp:
     container_name: rtmp
-    # image: lasery/nginx-rtmp:pizero
-    image: rtmp
+    image: watchdog:rtmp
     volumes:
       - records:/root/picam/archive/
       - ./rtmp/app/:/root/app/
@@ -20,27 +19,25 @@ services:
       - "443:443"
       - "1935:1935"
       - "1936:1936"
-    # command: /usr/local/nginx/sbin/nginx -g 'daemon off;'
     environment:
-      - LD_LIBRARY_PATH=/opt/vc/lib
       - TZ=Asia/Hong_Kong
     privileged: true
     command: /root/app/convert.sh
-    restart: always
+    restart: unless-stopped
 
   picam:
     container_name: picam
-    image: lasery/picam:pizero
+    image: lasery/picam
     volumes:
-      - records:/root/picam/archive/
-      - ./picam/app/:/root/app/
+      - records:/home/picam/archive/
+      - ./picam/app/:/home/picam/app/
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
+    command: /home/picam/app/record.sh
     depends_on:
       - rtmp
-    command: /root/app/record.sh
-    restart: always
+    restart: unless-stopped
 
   frp-server:
     container_name: frp-server
@@ -54,7 +51,7 @@ services:
       - "10022:22"
       - "1935:1935"
       - "1936:1936"
-    restart: always
+    restart: unless-stopped
 
   frp-client:
     container_name: frp-client
@@ -63,7 +60,7 @@ services:
       - ./frp/frpc.ini:/root/frp/frpc.ini
     entrypoint: /root/frp/frpc
     command: -c /root/frp/frpc.ini
-    restart: always
+    restart: unless-stopped
 
   prod-cli:
     image: tianon/true

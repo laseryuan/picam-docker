@@ -1,20 +1,4 @@
 #!/bin/sh
-
-# Wait for rtmp service
-sleep 30
-
-# Start picam and start streaming
-picam --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181 &
-sleep 30
-
-# Stop recording on Ctrl-C
-trap on_sigint INT
-on_sigint() {
-  echo "Stop recording"
-  touch hooks/stop_record
-  exit 0
-}
-
 wait_for_about_ten_minutes() {
   date_format='+%Y-%m-%dT%H:%M:00'
   ten_nimutes_later=$(date -d '+10 minute' $date_format)

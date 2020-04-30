@@ -30,11 +30,11 @@ services:
     image: lasery/picam
     volumes:
       - records:/home/picam/archive/
-      - ./picam:/home/picam/app/
+      - ./picam/hooks.sh:/home/picam/hooks.sh
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
-    command: /home/picam/app/record.sh
+    command: start --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181
     depends_on:
       - rtmp
     restart: unless-stopped

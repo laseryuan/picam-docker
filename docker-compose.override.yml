@@ -1,10 +1,6 @@
 version: '2'
 
 services:
-  busybox:
-    image: hypriot/armhf-busybox
-    command: tail -f /dev/null
-
   rtmp:
     image: lasery/watchdog:rtmp
 
@@ -19,5 +15,13 @@ services:
     image: tianon/true
     restart: "no"
     depends_on:
+      - picam
+      - rtmp
+
+  prod-cli:
+    image: tianon/true
+    restart: "no"
+    depends_on:
+      - frp-client
       - picam
       - rtmp

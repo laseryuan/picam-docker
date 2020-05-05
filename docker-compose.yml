@@ -59,11 +59,3 @@ services:
     entrypoint: /root/frp/frpc
     command: -c /root/frp/frpc.ini
     restart: unless-stopped
-
-  prod-cli:
-    image: tianon/true
-    restart: "no"
-    depends_on:
-      - frp-client
-      - picam
-      - rtmp

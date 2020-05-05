@@ -1,65 +1,20 @@
 # Production
-## Setup
-mkdir -p ~/picam/data
-cd ~/picam
+## Run
+```
+mkdir data
 wget https://raw.githubusercontent.com/laseryuan/watchdog/master/docker-compose.yml
 wget https://raw.githubusercontent.com/laseryuan/watchdog/master/docker-compose.override.yml
 docker-compose up picam
+```
 
-### Cron tab
+### Debug
 sudo crontab -e
 
 35 * * * * /home/pi/projects/watchdog/utils/network-monitor.sh 2>&1 | /usr/bin/logger -t watchdog_network_monitor
 0 21 * * * /home/pi/projects/watchdog/utils/restart-frp-client.sh 2>&1 | /usr/bin/logger -t watchdog_frp_client
 
-## Usage
-read -p 'server ip/domain: ' SERVER_ENTRYPOINT && echo $SERVER_ENTRYPOINT # i.e. raspi0.btccashout.com
-
-docker-compose pull watchdog rtmp frp-client
-
-docker-compose up -d prod-cli
-docker-compose up -d frp-server
-
-docker-compose exec watchdog bash
-
-touch hooks/start_record
-ls -lh ./rec/archive/*
-touch hooks/stop_record
-
-ffmpeg -i test.ts -c:v copy -c:a copy -bsf:a aac_adtstoasc test.mp4
-
-ffplay "rtmp://$SERVER_ENTRYPOINT:1935/webcam/mystream"
-
-ssh -p 10022 -A pi@$SERVER_ENTRYPOINT
-
-### Logs
-docker logs watchdog > ./data/logs/watchdog.`date '+%Y%m%d'`.log
-
-scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/syslog ./data/logs/syslog.`date '+%Y%m%d'`.log
-scp -P 10022 pi@$SERVER_ENTRYPOINT:/var/log/messages ./data/logs/messages.`date '+%Y%m%d'`.log
-
-grep -a systemd-modules-load
-grep -a reboot
-grep -a dhcpclient
-
-### Huawei
-ssh -p 8022 192.168.21.103
-cd ~/storage/shared/LapseItPro/
-ls -d 2018.*
-
 # Development
-cd ~/projects/watchdog
-docker-compose up -d dev-cli
-sshfs pi@$SERVER_ENTRYPOINT:/home/pi/projects/watchdog $PWD/remote -o nonempty
-
-## Setup (optional)
-mkdir ~/projects/watchdog -p
-git clone git@github.com:laseryuan/watchdog-docker remote
-
-fusermount -u remote
-
-## Build docker image
-cd /home/pi/projects/watchdog/
-docker buildx bake -f docker-bake.hcl
-docker-compose build watchdog rtmp frp-client
-docker-compose push watchdog rtmp frp-client
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up \
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml run \
+  rtmp
+  picam

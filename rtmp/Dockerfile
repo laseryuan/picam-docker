@@ -26,3 +26,5 @@ RUN ldconfig # fix constantly exit ffmpeg
 
 # Sanity Test
 RUN /usr/local/nginx/sbin/nginx -h && ffmpeg -version
+
+COPY rtmp/app /root/app

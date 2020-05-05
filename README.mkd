@@ -1,10 +1,10 @@
 # Production
 ## Setup
-mkdir -p ~/projects
-cd ~/projects
-git clone --depth 1 git@github.com:laseryuan/watchdog-docker.git watchdog
-cd watchdog
-docker-compose pull
+mkdir -p ~/picam/data
+cd ~/picam
+wget https://raw.githubusercontent.com/laseryuan/watchdog/master/docker-compose.yml
+wget https://raw.githubusercontent.com/laseryuan/watchdog/master/docker-compose.override.yml
+docker-compose up picam
 
 ### Cron tab
 sudo crontab -e

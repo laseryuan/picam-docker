@@ -8,9 +8,15 @@ services:
       # - picam
       # - rtmp
   rtmp:
-    image: lasery/watchdog:rtmp
+    image: watchdog:rtmp
+    volumes:
+      # - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
+      - ./rtmp/app/:/root/app/
 
   picam:
+    image: watchdog:picam
+    volumes:
+      - ./picam/hooks.sh:/home/picam/hooks.sh
 
   frp-server:
 

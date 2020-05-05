@@ -1,8 +1,9 @@
 group "default" {
     targets = [
-      "rtmp",
-//      "rtmp-push",
+//      "rtmp",
+      "rtmp-push",
 //      "picam",
+//      "picam-push",
     ]
 }
 
@@ -13,6 +14,15 @@ target "picam" {
     ]
     tags = ["watchdog:picam"]
     output = ["type=docker"]
+}
+
+target "picam-push" {
+    dockerfile = "picam/Dockerfile"
+    platforms = [
+        "linux/arm/v6"
+    ]
+    tags = ["lasery/watchdog:picam"]
+    output = ["type=registry"]
 }
 
 target "rtmp" {

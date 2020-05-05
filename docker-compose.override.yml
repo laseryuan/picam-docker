@@ -4,15 +4,12 @@ services:
   busybox:
     image: hypriot/armhf-busybox
     command: tail -f /dev/null
-    # volumes_from:
-      # - picam
-      # - rtmp
+
   rtmp:
-    image: watchdog:rtmp
-    volumes:
-      - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
+    image: lasery/watchdog:rtmp
 
   picam:
+    image: lasery/watchdog:picam
 
   frp-server:
 

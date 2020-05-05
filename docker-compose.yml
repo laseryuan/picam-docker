@@ -13,7 +13,6 @@ services:
     image: watchdog:rtmp
     volumes:
       - records:/root/picam/archive/
-      - ./rtmp/app/:/root/app/
     ports:
       - "80:80"
       - "443:443"
@@ -27,14 +26,13 @@ services:
 
   picam:
     container_name: picam
-    image: lasery/picam
     volumes:
       - records:/home/picam/archive/
-      - ./picam/hooks.sh:/home/picam/hooks.sh
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
-    command: start --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181
+    # command: start --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181
+    command: start --noaudio --time --videobitrate 500000 --fps 10 --tcpout tcp://rtmp:8181
     depends_on:
       - rtmp
     restart: unless-stopped

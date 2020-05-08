@@ -1,4 +1,7 @@
 # Production
+## Prequest for lapse video creation
+GPU memory: 256m
+
 ## Run
 ```
 mkdir data

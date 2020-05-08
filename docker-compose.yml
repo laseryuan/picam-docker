@@ -10,9 +10,10 @@ volumes:
 services:
   rtmp:
     container_name: rtmp
-    image: watchdog:rtmp
+    image: lasery/watchdog:rtmp
     volumes:
       - records:/root/picam/archive/
+    privileged: true
     ports:
       - "80:80"
       - "443:443"
@@ -20,18 +21,19 @@ services:
       - "1936:1936"
     environment:
       - TZ=Asia/Hong_Kong
+      - CONVERT_VIDEO=true
     privileged: true
     command: /root/app/convert.sh
     restart: unless-stopped
 
   picam:
     container_name: picam
+    image: lasery/watchdog:picam
     volumes:
       - records:/home/picam/archive/
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
-    # command: start --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181
     command: start --noaudio --time --videobitrate 500000 --fps 10 --tcpout tcp://rtmp:8181
     depends_on:
       - rtmp

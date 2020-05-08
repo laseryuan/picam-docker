@@ -4,6 +4,8 @@
   DAY_BEGIN=7 # i.e. 7 a.m.
 
   ROOT_DIRECTORY=/root/picam/archive/lapse
+  mkdir -p $ROOT_DIRECTORY/output $ROOT_DIRECTORY/recycle
+
   # Check if the folder exist
   cd $ROOT_DIRECTORY || exit 1
 

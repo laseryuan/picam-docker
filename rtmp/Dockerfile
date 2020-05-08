@@ -1,4 +1,4 @@
-FROM lasery/ffmpeg as ffmpeg
+FROM lasery/ffmpeg:4.2.2 as ffmpeg
 
 # Update shared libraries for ffmpeg
 RUN mkdir -p /usr/local/lib/ffmpeg

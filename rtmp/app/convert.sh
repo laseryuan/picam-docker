@@ -34,27 +34,29 @@ check_disk_usage() {
   done
 }
 
-# Do forever
-while :
-do
+# CONVERT_VIDEO=false
+while true; do
   check_disk_usage
 
-  if [[ `date "+%H:%M"` > "07:10"  ]]; then
-    $current_file_dir/lapse.sh `date -d "-1 day" "+%Y-%m-%d"`
-  fi
+  if [ "$CONVERT_VIDEO" == "true" ]; then
+    if [[ `date "+%H:%M"` > "07:10"  ]]; then
+      $current_file_dir/lapse.sh `date -d "-1 day" "+%Y-%m-%d"`
+    fi
 
-  ts_files_number=$(ls -1t ./*.ts | wc -l)
-  echo "$ts_files_number ts files left."
+    ts_files_number=$(ls -1t ./*.ts | wc -l)
+    echo "$ts_files_number ts files left."
 
-  if [ $ts_files_number -gt 1 ]; then
-    echo "Start converting..."
-    latestfile=$(ls -1t *.ts | head -n2 | tail -n1 | sed -e 's/\.ts$//')
-    echo "`date`: Processing $latestfile.ts"
-    nice -15 ffmpeg -y -v quiet -i "$latestfile.ts" -acodec copy -vcodec copy "$latestfile.mp4"
-    echo "`date`: Creating lapse video: ./lapse/$latestfile.mp4 ..."
-    nice -15 ffmpeg -y -v quiet -vcodec h264_mmal -i "$latestfile.mp4" -vf setpts=0.004*PTS -vcodec h264_omx -an  "./lapse/$latestfile.mp4"
-    rm "$latestfile.ts"
-    echo "`date`: Done"
+    if [ $ts_files_number -gt 1 ]; then
+      echo "Start converting..."
+      latestfile=$(ls -1t *.ts | head -n2 | tail -n1 | sed -e 's/\.ts$//')
+      echo "`date`: Processing $latestfile.ts"
+      nice -15 ffmpeg -y -v error -i "$latestfile.ts" -acodec copy -vcodec copy "$latestfile.mp4" && rm "$latestfile.ts"
+      echo "`date`: Creating lapse video: ./lapse/$latestfile.mp4 ..."
+      nice -15 ffmpeg -y -v error -vcodec h264_mmal -i "$latestfile.mp4" -vf setpts=0.004*PTS -vcodec h264_omx -an  "./lapse/$latestfile.mp4"
+      echo "`date`: Done"
+    fi
+  else
+    echo CONVERT_VIDEO: "$CONVERT_VIDEO" Skip convertting videos ...
   fi
 
   echo "Waiting for one minutes to see if any more ts file need to be convert..."

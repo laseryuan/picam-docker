@@ -1,6 +1,10 @@
 # Production
 ## Prequest for lapse video creation
 GPU memory: 256m
+```
+sudo vim /boot/config.txt
+gpu_mem=256
+```
 
 ## Run
 ```

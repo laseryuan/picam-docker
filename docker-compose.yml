@@ -34,7 +34,17 @@ services:
     privileged: true
     environment:
       - TZ=Asia/Hong_Kong
-    command: start --noaudio --time --videobitrate 500000 --fps 10 --tcpout tcp://rtmp:8181
+    command: >
+      /bin/bash -c "
+        echo testing rtmp connection;
+        while ! nc -z rtmp 1936;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+        /docker-entrypoint.sh start --noaudio --time --videobitrate 500000 --fps 10 --tcpout tcp://rtmp:8181
+      "
     depends_on:
       - rtmp
     restart: unless-stopped

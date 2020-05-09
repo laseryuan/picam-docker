@@ -7,19 +7,30 @@ services:
 
   rtmp:
     # image: watchdog:rtmp
-    volumes:
+    # volumes:
       # - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
-      - ./rtmp/app/:/root/app/
-    environment:
-      - CONVERT_VIDEO=false
+      # - ./rtmp/app/:/root/app/
+    # environment:
+      # - CONVERT_VIDEO=false
     restart: "no"
 
   picam:
     # image: watchdog:picam
-    volumes:
+    # volumes:
       # - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
-      - ./picam/hooks.sh:/home/picam/hooks.sh
-    command: start --noaudio --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181
+      # - ./picam/hooks.sh:/home/picam/hooks.sh
+    # command: >
+      # /bin/bash -c "
+        # echo testing rtmp connection;
+        # while ! nc -z rtmp 1936;
+        # do
+          # echo sleeping;
+          # sleep 1;
+        # done;
+        # echo Connected!;
+        # /docker-entrypoint.sh start --noaudio --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181
+      # "
+
     # command: start --noaudio --time --videobitrate 500000 --fps 10 --tcpout tcp://rtmp:8181
     # command: start --alsadev hw:1,0 --time --width 630 --height 270 --videobitrate 200000 --fps 15 --tcpout tcp://rtmp:8181
     restart: "no"

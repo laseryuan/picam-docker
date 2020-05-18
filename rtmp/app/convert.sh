@@ -41,13 +41,14 @@ check_disk_usage() {
 }
 
 process_ts_file() {
-  local latestfile=$1
+  local latestfile="$1"
   echo "`date`: Processing $latestfile.ts and "
   echo "Creating lapse video: ./lapse/$latestfile.ts ..."
   nice -15 ffmpeg -y -v $ffmpeglog -vcodec h264_mmal -i "$latestfile.ts" \
     -acodec copy -vcodec copy "$latestfile.mp4" \
-    -vf setpts=PTS/250 -video_track_timescale 10k -vcodec h264_omx -an  "./lapse/$latestfile.mp4" \
-    -vf fps=1/60 "./lapse/images/$latestfile.img%02d.jpg"
+    -vf "setpts=PTS/250" -r 20 -video_track_timescale 10k -vcodec h264_omx -an  "./lapse/$latestfile.mp4" \
+    -vf "fps=1/60" "./lapse/images/$latestfile.img%02d.jpg"
+  delete_if_file_empty "./lapse/$latestfile.mp4"
   rm "$latestfile.ts"
   echo "`date`: Done"
 }
@@ -64,6 +65,19 @@ convert_video_file() {
     echo "Start converting..."
     local latestfile=$(ls -1t *.ts | head -n2 | tail -n1 | sed -e 's/\.ts$//')
     process_ts_file "$latestfile"
+  fi
+}
+
+delete_if_file_empty() {
+  _file="$1"
+  [ $# -eq 0 ] && { echo "Usage: $0 filename"; exit 1; }
+  [ ! -f "$_file" ] && { echo "Error: $0 file not found."; exit 2; }
+
+  if [ ! -s "$_file" ]
+  then
+    echo "$_file is empty. Removeing it ..."
+    rm -f "$_file"
+    echo "$_file deleted"
   fi
 }
 

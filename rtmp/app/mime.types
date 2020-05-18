@@ -1,3 +1,4 @@
 types {
   video/mp4 mp4 m4v;
+  image/jpeg jpeg jpg;
 }

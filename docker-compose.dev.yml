@@ -7,11 +7,12 @@ services:
 
   rtmp:
     # image: watchdog:rtmp
-    # volumes:
+    volumes:
       # - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
-      # - ./rtmp/app/:/root/app/
+      - ./rtmp/app/:/root/app/
     # environment:
       # - CONVERT_VIDEO=false
+      # - DEBUG_MODE=true
     restart: "no"
 
   picam:

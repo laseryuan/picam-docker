@@ -22,6 +22,7 @@ services:
     environment:
       - TZ=Asia/Hong_Kong
       - CONVERT_VIDEO=true
+      - DEBUG_MODE=false
     privileged: true
     command: /root/app/convert.sh
     restart: unless-stopped

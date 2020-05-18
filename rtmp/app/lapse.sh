@@ -1,10 +1,10 @@
 #!/bin/bash
-# Usage: join_lapse_clips `date "+%Y-%m-%d"`
+
+  [[ "${DEBUG_MODE}" == "true" ]] && ffmpeglog="debug" || ffmpeglog="error"
 
   DAY_BEGIN=7 # i.e. 7 a.m.
 
   ROOT_DIRECTORY=/root/picam/archive/lapse
-  mkdir -p $ROOT_DIRECTORY/output $ROOT_DIRECTORY/recycle
 
   # Check if the folder exist
   cd $ROOT_DIRECTORY || exit 1
@@ -60,10 +60,10 @@
     echo "Find more clips of the day. Trying to join with existing lapse video"
     mv output/$target_day.mp4 output/$target_day.tmp.mp4
     sed -i "1s/^/file output\/$target_day.tmp.mp4\n/" $target_day.txt
-    nice -15 ffmpeg -y -v quiet -f concat -i $target_day.txt -c copy output/$target_day.mp4
+    nice -15 ffmpeg -y -v $ffmpeglog -f concat -i $target_day.txt -c copy output/$target_day.mp4
     rm output/$target_day.tmp.mp4
   else
-    nice -15 ffmpeg -y -v quiet -f concat -i $target_day.txt -c copy output/$target_day.mp4
+    nice -15 ffmpeg -y -v $ffmpeglog -f concat -i $target_day.txt -c copy output/$target_day.mp4
   fi
 
   # clean up temp files

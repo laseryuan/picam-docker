@@ -23,6 +23,7 @@ services:
       - TZ=Asia/Hong_Kong
       - CONVERT_VIDEO=true
       - DEBUG_MODE=false
+      - IMAGE_ON=true
     privileged: true
     command: /root/app/convert.sh
     restart: unless-stopped

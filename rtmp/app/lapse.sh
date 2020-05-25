@@ -1,5 +1,32 @@
 #!/bin/bash
 
+function build_clip_list() {
+  all_mp4_files="$1"
+  for mp4_file in $all_mp4_files; do
+    # mp4_file="2018-05-09_12-20-00.mp4" # for dev
+    local the_day=`echo $mp4_file | cut -d'_' -f 1`
+    local hour_str=`echo $mp4_file | cut -d'_' -f 2 | cut -d'.' -f 1 | cut -d'-' -f 1`
+    local hour_num=$((10#$hour_str))
+    local is_target_file=false
+
+    if [ "$the_day" = "$target_day" ]; then
+      if (( $hour_num>=$DAY_BEGIN )); then
+        is_target_file=true
+      fi
+    fi
+
+    if [ "$the_day" = "$target_day_next_day" ]; then
+      if (( $hour_num < $DAY_BEGIN )); then
+        is_target_file=true
+      fi
+    fi
+
+    if $is_target_file ; then
+      CLIP_LIST=("${CLIP_LIST[@]}" $mp4_file)
+    fi
+  done
+}
+
   [[ "${DEBUG_MODE}" == "true" ]] && ffmpeglog="debug" || ffmpeglog="error"
 
   DAY_BEGIN=7 # i.e. 7 a.m.
@@ -19,29 +46,7 @@
   target_day_next_day=`date -d "$target_day +1 day" $date_format`
 
   CLIP_LIST=()
-  for mp4_file in $all_mp4_files; do
-    # mp4_file="2018-05-09_12-20-00.mp4" # for dev
-    the_day=`echo $mp4_file | cut -d'_' -f 1`
-    hour_str=`echo $mp4_file | cut -d'_' -f 2 | cut -d'.' -f 1 | cut -d'-' -f 1`
-    hour_num=$((10#$hour_str))
-    is_target_file=false
-
-    if [ "$the_day" = "$target_day" ]; then
-      if (( $hour_num>=$DAY_BEGIN )); then
-        is_target_file=true
-      fi
-    fi
-
-    if [ "$the_day" = "$target_day_next_day" ]; then
-      if (( $hour_num < $DAY_BEGIN )); then
-        is_target_file=true
-      fi
-    fi
-
-    if $is_target_file ; then
-      CLIP_LIST=("${CLIP_LIST[@]}" $mp4_file)
-    fi
-  done
+  build_clip_list "${all_mp4_files}"
 
   if [ ${#CLIP_LIST[@]} = 0 ]; then
     echo "`date`: No lapse video clips to join for $target_day ..."

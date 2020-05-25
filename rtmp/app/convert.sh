@@ -40,16 +40,28 @@ check_disk_usage() {
   done
 }
 
+get_date_from_filename() {
+  echo $1 | cut -d'_' -f 1
+}
+
 process_ts_file() {
   local latestfile="$1"
   echo "`date`: Processing $latestfile.ts and "
   echo "Creating lapse video: ./lapse/$latestfile.ts ..."
-  nice -15 ffmpeg -y -v $ffmpeglog -vcodec h264_mmal -i "$latestfile.ts" \
-    -acodec copy -vcodec copy "$latestfile.mp4" \
-    -vf "setpts=PTS/250" -r 20 -video_track_timescale 10k -vcodec h264_omx -an  "./lapse/$latestfile.mp4" \
-    -vf "fps=1/60" "./lapse/images/$latestfile.img%02d.jpg"
+
+  local outputs="\
+    -acodec copy -vcodec copy ${latestfile}.mp4 \
+    -vf setpts=PTS/250 -r 20 -video_track_timescale 10k -vcodec h264_omx -an ./lapse/${latestfile}.mp4"
+  if [ "$IMAGE_ON" == "true" ]; then
+    local image_date=$(get_date_from_filename "$latestfile")
+    mkdir -p "./lapse/images/$image_date"
+    outputs="${outputs} -vf fps=1/60 ./lapse/images/$image_date/$latestfile.img%02d.jpg"
+  fi
+  nice -15 ffmpeg -y -v $ffmpeglog -vcodec h264_mmal -i "$latestfile.ts" ${outputs}
+
   delete_if_file_empty "./lapse/$latestfile.mp4"
   rm "$latestfile.ts"
+
   echo "`date`: Done"
 }
 

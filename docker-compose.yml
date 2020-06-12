@@ -39,12 +39,13 @@ services:
     command: >
       /bin/bash -c "
         echo testing rtmp connection;
-        while ! nc -z rtmp 1936;
+        while ! nc -z rtmp 8181;
         do
           echo sleeping;
           sleep 1;
         done;
         echo Connected!;
+        sleep 10 `# wait rtmp-ffmpeg restart from connection test`;
         /docker-entrypoint.sh start --noaudio --time --videobitrate 500000 --fps 10 --tcpout tcp://rtmp:8181
       "
     depends_on:

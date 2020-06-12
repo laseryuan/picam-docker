@@ -10,7 +10,8 @@ services:
     volumes:
       # - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
       - ./rtmp/app/:/root/app/
-    # environment:
+    environment:
+      - IMAGE_ON=false
       # - CONVERT_VIDEO=false
       # - DEBUG_MODE=true
     restart: "no"

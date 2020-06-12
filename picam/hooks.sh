@@ -14,9 +14,27 @@ wait_for_about_ten_minutes() {
   sleep $wait_for
 }
 
+picam_is_alive() {
+  pgrep -x picam
+}
+
+health_check() {
+  while ! picam_is_alive; do
+    echo "Picam is dead. Restarting picam ..."
+    echo "picam $(cat ~/picam_param) &"
+    picam $(cat ~/picam_param) &
+    sleep 5
+  done
+}
+
+# Set global recordbuf to 30
+echo 30 > hooks/set_recordbuf
+
 # Do forever
 while :
 do
+  health_check
+
   echo "Start recording"
   touch hooks/start_record || exit 1
 
@@ -27,7 +45,9 @@ do
   touch hooks/stop_record || exit 1
 
   # Wait for recording to stop
-  while [ `cat state/record` = "true" ]; do
-    sleep 0.1
-  done
+  sleep 5
+  # while [ `cat state/record` = "true" ]; do
+    # echo "Waiting for recorder to stop ..."
+    # sleep 5
+  # done
 done
